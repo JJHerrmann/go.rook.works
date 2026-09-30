@@ -6,9 +6,13 @@ Each path is created only from an approved queue item and redirects to an
 allowlisted Rookworks, RemoteCurrent, Bloodline, or Patreon destination. This
 site intentionally has no arbitrary query-string redirect endpoint.
 
+The `tracker/` directory contains the optional Cloudflare Worker that accepts
+anonymous click beacons from those pages. It stores only the generated slug,
+platform code, referring hostname, and timestamp in D1. It deliberately does
+not store IP addresses, cookies, full referring URLs, or user agents.
+
 Regenerate from the extraction-engine project with:
 
 ```bash
 python -m extraction build-links --out /home/rook/Documents/Runagarthur/projects/go.rook.works
 ```
-

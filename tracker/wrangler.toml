@@ -1,0 +1,8 @@
+name = "rookworks-link-tracker"
+main = "src/index.js"
+compatibility_date = "2026-09-01"
+
+[[d1_databases]]
+binding = "CLICKS"
+database_name = "rookworks-link-clicks"
+database_id = "aa86d6f3-ec66-4f10-b355-9c625a62bd71"
