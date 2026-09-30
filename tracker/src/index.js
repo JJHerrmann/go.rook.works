@@ -61,6 +61,17 @@ export default {
       return new Response(null, { status: 204, headers: corsHeaders() });
     }
 
+    if (request.method === "GET" && url.pathname.startsWith("/count/")) {
+      const slug = decodeURIComponent(url.pathname.slice(7)).replace(/\/$/, "");
+      if (!validSlug(slug)) return json({ error: "invalid slug" }, 400);
+      const row = await env.CLICKS.prepare(
+        "SELECT COUNT(*) AS clicks, MAX(clicked_at) AS last_clicked_at FROM clicks WHERE slug = ?1"
+      )
+        .bind(slug)
+        .first();
+      return json({ slug, clicks: Number(row?.clicks || 0), last_clicked_at: row?.last_clicked_at || null });
+    }
+
     if (request.method === "GET" && url.pathname === "/stats") {
       if (!env.STATS_TOKEN || request.headers.get("Authorization") !== `Bearer ${env.STATS_TOKEN}`) {
         return json({ error: "unauthorized" }, 401);
